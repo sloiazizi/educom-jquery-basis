@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> It's a database!</title>
+        <link rel="stylesheet" href="css/datatables.css" /> 
+        <script src="js/datatables.js"></script>
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+        <script>
+            $(document).ready( function(){ 
+                const dTable = $("#theBeatles").DataTable({
+                    ajax: "https://api.dev-master.ninja/js/beatles",
+                    columns: [
+                        { data: "id"},
+                        { data: "firstname"},
+                        { data: "lastname"},
+                        { data: "dateOfBirth"},
+                        { data: "email"}
+                    ]
+                });
+
+                setInterval( function(){
+                    dTable.ajax.reload()
+                }, 1000) // 10000 because its in milliseconds
+            });
+
+        </script>
+    </head>
+    <body>
+        <table id="theBeatles" class="display nowrap dataTable dtr-inline collapsed"> 
+            <thead>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Instruments</th>
+            </thead>
+            <tbody> 
+                <tr>
+                    <td>John Lennon</td>
+                    <td>john@thebeatles.co.uk</td>
+                    <td>Guitar / Vocals</td>
+                </tr>
+            
+                <tr>
+                    <td>George Harrison</td>
+                    <td>george@thebeatles.co.uk</td>
+                    <td>Guitar / Vocals</td>
+                </tr>
+            
+                <tr>
+                    <td>Paul McCartney</td>
+                    <td>paul@thebeatles.co.uk</td>
+                    <td>Bass / Vocals</td>
+                </tr>
+
+                <tr>
+                    <td>Ringo Starr</td>
+                    <td>ringo@thebeatles.co.uk</td>
+                    <td>Drums / Vocals</td>
+                </tr>
+          
+            </tbody>
+      </table>
+    </body>
+</html>
