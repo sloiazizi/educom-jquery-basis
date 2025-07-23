@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>It's a database!</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="css/datatables.css" />
+    <script src="js/datatables.js"></script>
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+    <script>
+      //ik vind het best vervelend dat het zoveel code is... het liefst creer ik aparte scripts en verwijs ik dit ernaar...
+      $(document).ready(function () {
+        const dTable = $("#theBeatles").DataTable({
+          ajax: "https://api.dev-master.ninja/js/beatles",
+          columns: [
+            { data: "id" },
+            { data: "firstname" },
+            { data: "lastname" },
+            { data: "dateOfBirth" },
+            { data: "email" },
+          ],
+        });
+
+        // Refresh
+        setInterval(function () {
+          dTable.ajax.reload();
+        }, 1000);
+
+        // Versturen van formuliergegevens to AJAX
+        $("#submitBtn").on("click", function () {
+          const data = {
+            firstname: $("#firstname").val(),
+            lastname: $("#lastname").val(),
+            email: $("#email").val(),
+          };
+
+          $.ajax({
+            url: "https://api.dev-master.ninja/js/person/save",
+            method: "POST",
+            data: data,
+            success: function (response) {
+              console.log("Sent", response);
+            },
+          });
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <input type="text" id="firstname" /><!--gegevens invullen -->
+    <input type="text" id="lastname" />
+    <input type="text" id="email" />
+    <button id="submitBtn">Send</button>
+
+    <table
+      id="theBeatles"
+      class="display nowrap dataTable dtr-inline collapsed"
+    >
+      <!--DataTable -->
+      <thead>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Instruments</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John Lennon</td>
+          <td>john@thebeatles.co.uk</td>
+          <td>Guitar / Vocals</td>
+        </tr>
+
+        <tr>
+          <td>George Harrison</td>
+          <td>george@thebeatles.co.uk</td>
+          <td>Guitar / Vocals</td>
+        </tr>
+
+        <tr>
+          <td>Paul McCartney</td>
+          <td>paul@thebeatles.co.uk</td>
+          <td>Bass / Vocals</td>
+        </tr>
+
+        <tr>
+          <td>Ringo Starr</td>
+          <td>ringo@thebeatles.co.uk</td>
+          <td>Drums / Vocals</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
